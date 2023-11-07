@@ -1,1 +1,153 @@
-<h1>Oi</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Homepage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        /* Reset some default styles */
+body, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Style the header navigation */
+header {
+    background-color: #333;
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Style the banner */
+.banner {
+    background-image: url('banner.jpg');
+    background-size: cover;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.banner h1 {
+    font-size: 36px;
+}
+
+.banner p {
+    font-size: 24px;
+}
+
+/* Style movie listings */
+.movie-listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.movie-card {
+    width: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Style showtimes */
+.showtimes {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style the footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">Showtimes</a></li>
+                <li><a href="#">Tickets</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h1>Welcome to Cinema Max</h1>
+        <p>Your favorite destination for movies!</p>
+    </section>
+
+    <section class="movie-listings">
+        <h2>Now Showing</h2>
+        <div class="movie-card">
+            <img src="movie1.jpg" alt="Movie 1">
+            <h3>Movie 1</h3>
+            <p>Genre: Action</p>
+            <p>Duration: 120 minutes</p>
+        </div>
+        <div class="movie-card">
+            <img src="movie2.jpg" alt="Movie 2">
+            <h3>Movie 2</h3>
+            <p>Genre: Comedy</p>
+            <p>Duration: 100 minutes</p>
+        </div>
+        <!-- Add more movie cards as needed -->
+    </section>
+
+    <section class="showtimes">
+        <h2>Showtimes</h2>
+        <table>
+            <tr>
+                <th>Movie</th>
+                <th>Showtimes</th>
+            </tr>
+            <tr>
+                <td>Movie 1</td>
+                <td>10:00 AM, 2:00 PM, 7:00 PM</td>
+            </tr>
+            <tr>
+                <td>Movie 2</td>
+                <td>11:00 AM, 3:00 PM, 8:00 PM</td>
+            </tr>
+            <!-- Add more showtimes as needed -->
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Cinema Max. All rights reserved.</p>
+    </footer>
+</body>
+</html>

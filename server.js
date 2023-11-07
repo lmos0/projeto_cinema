@@ -5,26 +5,33 @@ const passport = require('passport')
 const database = require('./database/models/database')
 const Cinema = require('./database/models/cinema')
 
-database.sync()
+// database.sync()
+
+const PORT = 3000
+const path = require('path')
 
 // const initializePassport = require('./passport-config')
 // initializePassport(passport, email => users.find( user => user.email === email))
 
 app.set('view engine', 'ejs') //set ejs, para poder usar variáveis
 app.use(express.urlencoded({extended:false}))
+app.use(express.static('public'))
 
 const users = []
 
-app.listen(3000)
+app.listen(PORT, () => {
+    console.log(`Servidor está rondando na porta ${PORT}`)
+})
+
 
 app.get('/', (req, res) => {
-    console.log("Servidor rodando")
-    res.render('index.ejs')
+    res.sendFile(path.resolve(__dirname, 'pages/index.html'))
+    // res.render('index.ejs')
 
 }) 
 
 app.get('/login', (req,res) => {
-    res.render('login.ejs')
+    res.sendFile(path.resolve(__dirname, 'pages/login.html'))
 })
 
 app.get('/register', (req, res) => {
@@ -56,8 +63,8 @@ app.get('/movie', (req,res) => {
 
 app.post('/movie', async(req,res) =>
 {
-    const {nome, preco} = req.body
-    Cinema.create({nome, preco})
+    const {filme, preco} = req.body
+    Cinema.create({filme, preco})
     return res.redirect('/')
     
 
