@@ -1,4 +1,4 @@
 const {Sequelize} = require('sequelize')
-const sequelize = new Sequelize( {dialect: 'sqlite', host:'./cinema.sqlite'})
+const sequelize = new Sequelize( {dialect: 'sqlite', storage:'./cinema.sqlite'})
 
 module.exports = sequelize

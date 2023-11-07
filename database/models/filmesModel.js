@@ -34,4 +34,4 @@ const Filmes = database.define('cinema', {
     
 })
 
-module.exports
+module.exports = Filmes

@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize')
 const database = require('./database')
+const Filmes = require('./filmesModel')
 
 const Screenings = database.define('Sessões',{
     id_session:{
@@ -18,5 +19,6 @@ const Screenings = database.define('Sessões',{
 })
 
 Screenings.belongsTo(Filmes,{foreignKey:'id_movie'})
+Filmes.hasMany(Screenings)
 
 module.exports = Screenings

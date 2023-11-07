@@ -3,9 +3,13 @@ const app  = express()
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const database = require('./database/models/database')
-const Cinema = require('./database/models/cinema')
+const Cinema = require('./database/models/cinemaModel')
+const Clientes = require('./database/models/clientesModel')
+const Filmes = require('./database/models/filmesModel')
+const Lugares = require('./database/models/lugaresModel')
+const Sessoes = require('./database/models/sessoesModel')
 
-// database.sync()
+database.sync()
 
 const PORT = 3000
 const path = require('path')
@@ -13,9 +17,12 @@ const path = require('path')
 // const initializePassport = require('./passport-config')
 // initializePassport(passport, email => users.find( user => user.email === email))
 
-app.set('view engine', 'ejs') //set ejs, para poder usar variáveis
 app.use(express.urlencoded({extended:false}))
 app.use(express.static('public'))
+
+
+app.set('view engine', 'ejs')
+ //set ejs, para poder usar variáveis
 
 const users = []
 
@@ -61,12 +68,13 @@ app.get('/movie', (req,res) => {
     res.render('movie.ejs')
 })
 
-app.post('/movie', async(req,res) =>
-{
-    const {filme, preco} = req.body
-    Cinema.create({filme, preco})
-    return res.redirect('/')
-    
-
-
-})
+app.post('/movie', async (req, res) => {
+    const { filme, preco } = req.body;
+    try {
+      await Cinema.create({ filme, preco });
+      res.redirect('/');
+    } catch (error) {
+      console.error('Error creating movie:', error);
+      res.redirect('/movie');
+    }
+  });
