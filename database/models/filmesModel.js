@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 const database = require('./database')
 
-const Filmes = database.define('cinema', {
+const Filmes = database.define('filmes', {
     id_movie:{
         type:DataTypes.INTEGER,
         allowNull:false,
@@ -26,7 +26,7 @@ const Filmes = database.define('cinema', {
         type: DataTypes.INTEGER,
         allowNull:false
     },
-    "3D":{
+    is3d:{
         type:DataTypes.BOOLEAN,
         allowNull:false
 

@@ -9,8 +9,16 @@
 <body>
     
     <form action="/movie" method="post">
-        <input type="text" name="filme" id="" placeholder="title">
-        <input type="number" name="preco" id="" placeholder="preço">
+        <input type="text" name="titulo" id="" placeholder="Título">
+        <input type="text" name="genero" id="" placeholder="Gênero">
+        <input type="text" name="censura" id="" placeholder="Idade Mínima">
+        <input type="text" name="duracao" id="" placeholder="Tempo de Duração">
+        <select name="is3d" id="">
+            <option value="true">3D</option>
+            <option value="false">2D</option>
+            
+        </select>
+
         <button type="submit">Registrar Filme</button>
     </form>
 </body>

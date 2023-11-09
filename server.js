@@ -8,6 +8,7 @@ const Clientes = require('./database/models/clientesModel')
 const Filmes = require('./database/models/filmesModel')
 const Lugares = require('./database/models/lugaresModel')
 const Sessoes = require('./database/models/sessoesModel')
+const Funcionarios = require('./database/models/funcionariosModel')
 
 database.sync()
 
@@ -69,12 +70,31 @@ app.get('/movie', (req,res) => {
 })
 
 app.post('/movie', async (req, res) => {
-    const { filme, preco } = req.body;
+    const { titulo, genero, censura, duracao, is3d} = req.body;
     try {
-      await Cinema.create({ filme, preco });
-      res.redirect('/');
+      await Filmes.create({ titulo, genero,censura, duracao, is3d })
+      res.redirect('/')
     } catch (error) {
-      console.error('Error creating movie:', error);
-      res.redirect('/movie');
+      console.error('Error creating movie:', error)
+      res.redirect('/movie')
     }
   });
+
+  app.get('/admin', (req,res) =>{
+    res.render('funcionarios.ejs')
+  })
+
+  app.post('/admin', async (req, res) =>{
+    const {user,password} = req.body //controller
+    try{
+        await Funcionarios.create({user, password})
+        console.log(user,password)
+        res.redirect('/')
+    }
+    catch (error){
+        console.log('Erro na criação', error)
+        res.redirect('/')
+    }
+        
+    })
+  
