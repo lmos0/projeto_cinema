@@ -2,6 +2,10 @@ const express = require('express')
 const app  = express()
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+
+const adminRouter = require('./routes/funcionariosRoutes')
+
+
 const database = require('./database/models/database')
 const Cinema = require('./database/models/cinemaModel')
 const Clientes = require('./database/models/clientesModel')
@@ -10,7 +14,7 @@ const Lugares = require('./database/models/lugaresModel')
 const Sessoes = require('./database/models/sessoesModel')
 const Funcionarios = require('./database/models/funcionariosModel')
 
-database.sync()
+// database.sync()
 
 const PORT = 3000
 const path = require('path')
@@ -20,12 +24,11 @@ const path = require('path')
 
 app.use(express.urlencoded({extended:false}))
 app.use(express.static('public'))
-
+app.use('/admin', adminRouter)
 
 app.set('view engine', 'ejs')
  //set ejs, para poder usar variáveis
 
-const users = []
 
 app.listen(PORT, () => {
     console.log(`Servidor está rondando na porta ${PORT}`)
@@ -41,60 +44,3 @@ app.get('/', (req, res) => {
 app.get('/login', (req,res) => {
     res.sendFile(path.resolve(__dirname, 'pages/login.html'))
 })
-
-app.get('/register', (req, res) => {
-    res.render('register.ejs')
-})
-
-app.post('/register', async (req, res) => {
- try{
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    users.push({
-        id: Date.now().toString(),
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword
-    })
-    res.redirect('/login')
- } 
- catch{
-    res.redirect('/register')
-
- }
- console.log(users)
-})
-
-
-app.get('/movie', (req,res) => {
-    res.render('movie.ejs')
-})
-
-app.post('/movie', async (req, res) => {
-    const { titulo, genero, censura, duracao, is3d} = req.body;
-    try {
-      await Filmes.create({ titulo, genero,censura, duracao, is3d })
-      res.redirect('/')
-    } catch (error) {
-      console.error('Error creating movie:', error)
-      res.redirect('/movie')
-    }
-  });
-
-  app.get('/admin', (req,res) =>{
-    res.render('funcionarios.ejs')
-  })
-
-  app.post('/admin', async (req, res) =>{
-    const {user,password} = req.body //controller
-    try{
-        await Funcionarios.create({user, password})
-        console.log(user,password)
-        res.redirect('/')
-    }
-    catch (error){
-        console.log('Erro na criação', error)
-        res.redirect('/')
-    }
-        
-    })
-  
