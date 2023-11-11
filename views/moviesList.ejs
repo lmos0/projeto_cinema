@@ -148,7 +148,7 @@
             <td><%= movie.genero %></td>
             <td><%= movie.censura %></td>
             <td><%= movie.duracao %></td>
-            <td><%= movie.is3d %></td>
+            <td><%= movie.is3d ? 'sim' : 'não' %></td>
           </tr>
         <% }); %>
       </tbody>

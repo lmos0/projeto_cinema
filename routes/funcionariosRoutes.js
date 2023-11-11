@@ -25,6 +25,8 @@ router.post('/addmovie', postMovie );
 
 router.get('/getmovies', getMovies)
 
+router.delete('/getmovies')
+
 
 
 
