@@ -5,7 +5,7 @@ const router = express.Router()
 
 
 router.get('/register', (req, res) => {
-    res.render('register.ejs')
+    res.render('clientesCadastro.ejs')
 })
 
 router.post('/register', async (req, res) => {
@@ -25,3 +25,15 @@ router.post('/register', async (req, res) => {
  }
  console.log(users)
 })
+
+router.get('/login', (req, res) =>{
+    res.render('loginClientes.ejs')
+})
+
+router.get('/', (req, res) => {
+    //res.sendFile(path.resolve(__dirname, 'pages/index.html'))
+    res.render('index.ejs')
+
+}) 
+
+module.exports = router

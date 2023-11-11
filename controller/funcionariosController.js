@@ -25,6 +25,9 @@ const postMovie = async (req, res) => {
     }
   } 
 
+  const renderAdminLogin = (req,res) =>{
+    res.render('adminLogin.ejs')
+  }
 
 const registerAdmins = async (req, res) =>{
     const {user,password} = req.body //controller
@@ -39,5 +42,9 @@ const registerAdmins = async (req, res) =>{
     }
         
     }
+  
+    const LoginScreen = async (req,res) => {
+      res.sendFile(path.resolve(__dirname, 'pages/adminLogin.html'))
+    }
 
-    module.exports = {postMovie, registerAdmins, getMovies}
+    module.exports = {postMovie, registerAdmins, getMovies, renderAdminLogin}

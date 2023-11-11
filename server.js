@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 
 const adminRouter = require('./routes/funcionariosRoutes')
+const clientesRouter = require('./routes/clientesRoutes')
 
 
 const database = require('./database/models/database')
@@ -25,6 +26,7 @@ const path = require('path')
 app.use(express.urlencoded({extended:false}))
 app.use(express.static('public'))
 app.use('/admin', adminRouter)
+app.use('/',clientesRouter)
 
 app.set('view engine', 'ejs')
  //set ejs, para poder usar variáveis
@@ -35,12 +37,8 @@ app.listen(PORT, () => {
 })
 
 
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/index.html'))
-    // res.render('index.ejs')
 
-}) 
-
-app.get('/login', (req,res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/login.html'))
-})
+// rota de login do usuário
+// app.get('/login', (req,res) => {
+//     res.sendFile(path.resolve(__dirname, 'pages/login.html'))
+// })
