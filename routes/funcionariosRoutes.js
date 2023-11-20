@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {postMovie,registerAdmins,getMovies, renderAdminLogin} = require('../controller/funcionariosController')
+const {postMovie,registerAdmins,getMovies, renderAdminLogin, deleteMovie} = require('../controller/funcionariosController')
 const {funcionarioLoginPage} = require('../routes/renderRoutes')
 
 
@@ -25,7 +25,7 @@ router.post('/addmovie', postMovie );
 
 router.get('/getmovies', getMovies)
 
-router.delete('/getmovies')
+router.post('/deletemovie', deleteMovie)
 
 
 

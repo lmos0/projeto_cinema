@@ -47,7 +47,7 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
-        <h1><a href="index.html">CineScript</a> <i class="bi bi-film"></i> </h1>
+        <h1><a href="/">CineScript</a> <i class="bi bi-film"></i> </h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -139,6 +139,7 @@
           <th>Censura</th>
           <th>Duração</th>
           <th>3D</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -149,6 +150,17 @@
             <td><%= movie.censura %></td>
             <td><%= movie.duracao %></td>
             <td><%= movie.is3d ? 'sim' : 'não' %></td>
+            <td>
+
+              <form action="deletemovie" method="post"> <!-- Change method to "POST" -->
+                <!-- id escondido -->
+                <input type="hidden" name="id_movie" value="<%= movie.id_movie %>">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+
+
+
+            </td>
           </tr>
         <% }); %>
       </tbody>

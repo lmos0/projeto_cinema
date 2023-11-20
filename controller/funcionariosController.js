@@ -3,23 +3,24 @@ const Funcionarios = require('../database/models/funcionariosModel')
 const Filmes = require('../database/models/filmesModel')
 
 const postMovie = async (req, res) => {
-    const { titulo, genero, censura, duracao, is3d} = req.body;
-    try {
-      await Filmes.create({ titulo, genero,censura, duracao, is3d })
-      res.redirect('/admin/getmovies')
-    } catch (error) {
-      console.error('Error creating movie:', error)
-      res.redirect('/movie')
-    }
+  const { titulo, genero, censura, duracao, is3d} = req.body;
+  try {
+    await Filmes.create({ titulo, genero,censura, duracao, is3d })
+    res.redirect('/admin/getmovies')
+  } catch (error) {
+    console.error('Error creating movie:', error)
+    res.redirect('/movie')
   }
+}
 
 const deleteMovie = async (req, res) => {
-  const {titulo} = req.body
+  const {id_movie} = req.body
 
   try {
     const deleteRows = await Filmes.destroy({
       where: {
-        titulo: titulo,
+        id_movie: id_movie
+        // deletar pelo id. botão pega o id, botão executa função deletar
       },
     })
 
@@ -34,7 +35,7 @@ const deleteMovie = async (req, res) => {
     }
   catch(error){
     console.error('Erro ao deleter o filme:', error)
-    res.redirect('admin/getmovies')
+    res.redirect('/admin/getmovies')
 
   }
   }
