@@ -23,4 +23,7 @@ Screenings.belongsTo(Filmes,{foreignKey:'id_movie'})
 Filmes.hasMany(Screenings)
 Screenings.hasOne(Lugares)
 
+
 module.exports = Screenings
+
+// Problema de Janela. Buscar todas as sessões que terminam depois do início da sessão iniciada/criada. Invalidar horários -> l

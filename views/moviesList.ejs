@@ -134,6 +134,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Título</th>
           <th>Gênero</th>
           <th>Censura</th>
@@ -145,6 +146,7 @@
       <tbody>
         <% movies.forEach(movie => { %>
           <tr>
+            <td><%= movie.id_movie %></td>
             <td><%= movie.titulo %></td>
             <td><%= movie.genero %></td>
             <td><%= movie.censura %></td>

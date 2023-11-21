@@ -1,6 +1,7 @@
 const Funcionarios = require('../database/models/funcionariosModel')
 
-const Filmes = require('../database/models/filmesModel')
+const Filmes = require('../database/models/filmesModel');
+const Screenings = require('../database/models/sessoesModel');
 
 const postMovie = async (req, res) => {
   const { titulo, genero, censura, duracao, is3d} = req.body;
@@ -76,4 +77,34 @@ const registerAdmins = async (req, res) =>{
       res.sendFile(path.resolve(__dirname, 'pages/adminLogin.html'))
     }
 
-    module.exports = {postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie}
+
+
+
+    const renderScreenings = (req, res) =>{
+      res.render('cadastroSessoes.ejs')
+    }
+
+    const createScreenings= async (req,res) =>{
+      const {horario, lugares_disponiveis, id_movie} = req.body
+
+      try{
+        const movieExists = await Filmes.findByPk(id_movie)
+
+        if(!movieExists){
+          return res.status(404).json({error: 'Filme não encontrado'})
+        }
+      
+        const screening = await Screenings.create({horario, lugares_disponiveis, id_movie})
+        res.status(201).json({ message: "Sessão criada com sucesso", screening})
+      }
+
+        catch(error){
+          console.error('Erro ao criar sessão', error)
+          return res.status(500).json({error: 'Erro interno no servidor'})
+
+        }
+
+      
+    }
+
+    module.exports = {postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, renderScreenings, createScreenings}
