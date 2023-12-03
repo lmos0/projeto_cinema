@@ -11,8 +11,11 @@ router.use(express.static('public'))
 router.get('/', renderAdminLogin ) // carrega o arquivo funcionarios.ejs
 
 
-router.post('/', registerAdmins)
+router.get('/cadastro', (req, res) =>{
+    res.render('funcionariosCadastro.ejs')
+})
 
+router.post('/cadastro', registerAdmins)
 // buscar e postar filmes
 
 router.get('/addmovie', (req,res) => {
@@ -30,6 +33,8 @@ router.post('/deletemovie', deleteMovie)
 router.get('/createsession', renderScreenings )
 
 router.post('/createsession', createScreenings)
+
+
 
 
 

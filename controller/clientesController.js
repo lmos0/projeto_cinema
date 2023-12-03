@@ -1,5 +1,7 @@
 const Clientes = require('../database/models/clientesModel')
 const bcrypt= require('bcrypt')
+const dotenv = require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 const registerCostumer = async (req, res) => {
     try{
@@ -21,4 +23,41 @@ const registerCostumer = async (req, res) => {
   
    }
 
-   module.exports = {registerCostumer}
+
+const authCostumer = async (req, res) =>{
+    try{
+        const {user, password} = req.body
+
+        const userFound = await Clientes.findOne({
+            where:{
+                user:user
+            }
+        })
+
+        if (!userFound){
+            return res.status(401).redirect('/login')
+        }
+
+        const passwordMatch = await bcrypt.compare(password, userFound.password)
+
+        if(!passwordMatch){
+            return res.status(401).redirect('/login')
+        }
+        
+        const acessToken = jwt.sign({username: userFound.username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+        const refreshToken = jwt.sign({userId: userFound.id}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
+
+        res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000}) // não está disponível para o JS
+        res.json({acessToken})
+
+
+      
+
+    }
+    catch(error){
+        console.error('Falha ao logar', error)
+        res.status(500).render('erro.ejs')
+    }
+}
+
+   module.exports = {registerCostumer, authCostumer}

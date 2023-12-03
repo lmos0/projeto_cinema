@@ -28,6 +28,12 @@ nome:{
 data_nacimento:{
     type: DataTypes.DATE,
     allowNull: true,
+},
+
+email:{
+    type:DataTypes.STRING,
+    allowNull: false,
+    unique: true
 }
 
 

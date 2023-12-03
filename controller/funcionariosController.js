@@ -1,4 +1,5 @@
 const Funcionarios = require('../database/models/funcionariosModel')
+const bcrypt = require('bcrypt')
 
 const Filmes = require('../database/models/filmesModel');
 const Screenings = require('../database/models/sessoesModel');
@@ -81,7 +82,7 @@ const registerAdmins = async (req, res) =>{
 
 
     const renderScreenings = (req, res) =>{
-      res.render('cadastroSessoes.ejs')
+      res.render('cadastroSessoes')
     }
 
     const createScreenings= async (req,res) =>{
@@ -89,6 +90,7 @@ const registerAdmins = async (req, res) =>{
 
       try{
         const movieExists = await Filmes.findByPk(id_movie)
+        res.render('cadastroSessoes', {movieExists})
 
         if(!movieExists){
           return res.status(404).json({error: 'Filme não encontrado'})

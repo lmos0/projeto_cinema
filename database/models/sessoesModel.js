@@ -19,7 +19,7 @@ const Screenings = database.define('Sessões',{
     } // percorrer a tabela e descobrir os lugares disponíveis 
 })
 
-Screenings.belongsTo(Filmes,{foreignKey:'id_movie'})
+Screenings.belongsTo(Filmes, {foreignKey:'id_movie'})
 Filmes.hasMany(Screenings)
 Screenings.hasOne(Lugares)
 

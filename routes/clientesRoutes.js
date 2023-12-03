@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {registerCostumer} = require('../controller/clientesController')
+const {registerCostumer, authCostumer} = require('../controller/clientesController')
+const verifyToken = require('../middleware/auth')
 
 //registro
 
@@ -20,5 +21,12 @@ router.get('/', (req, res) => {
     res.render('index.ejs')
 
 }) 
+
+router.post('/login', authCostumer, verifyToken)
+
+
+router.get('/session', verifyToken, (req,res) =>{
+    res.render('sessionUser.ejs', { username: req.user })
+})
 
 module.exports = router
