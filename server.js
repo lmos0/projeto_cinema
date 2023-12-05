@@ -1,5 +1,5 @@
 const express = require('express')
-const app  = express()
+const app = express()
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv').config()
 const jwt = require('jsonwebtoken')
@@ -20,7 +20,7 @@ const Lugares = require('./database/models/lugaresModel')
 const Sessoes = require('./database/models/sessoesModel')
 const Funcionarios = require('./database/models/funcionariosModel')
 
- database.sync()
+database.sync()
 
 const PORT = 3000
 const path = require('path')
@@ -28,18 +28,18 @@ const path = require('path')
 
 
 
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 app.use(cookieParser())
 
 app.use('/admin', adminRouter)
-app.use('/',clientesRouter)
+app.use('/', clientesRouter)
 app.use('/session', verifyToken)
 
 
 
 app.set('view engine', 'ejs')
- //set ejs, para poder usar variáveis
+//set ejs, para poder usar variáveis
 
 
 app.listen(PORT, () => {
