@@ -8,7 +8,7 @@ const postMovie = async (req, res) => {
   const { titulo, genero, censura, duracao, is3d } = req.body;
   try {
     await Filmes.create({ titulo, genero, censura, duracao, is3d })
-    res.redirect('/admin/getmovies')
+    res.redirect('/admin/movies')
   } catch (error) {
     console.error('Error creating movie:', error)
     res.redirect('/movie')
@@ -28,16 +28,16 @@ const deleteMovie = async (req, res) => {
 
     if (deleteRows > 0) {
       console.log(`O filme ${titulo} foi deletado com sucesso`)
-      res.redirect('/admin/getmovies')
+      res.redirect('/admin/movies')
     }
     else {
       console.log('Filme não encontrado')
-      res.redirect('/admin/getmovies')
+      res.redirect('/admin/movies')
     }
   }
   catch (error) {
     console.error('Erro ao deleter o filme:', error)
-    res.redirect('/admin/getmovies')
+    res.redirect('/admin/movies')
 
   }
 }
@@ -81,22 +81,27 @@ const LoginScreen = async (req, res) => {
 
 
 
-const renderScreenings = (req, res) => {
-  res.render('cadastroSessoes')
+const renderScreenings = async (req, res) => {
+  const sessions = await Screenings.findAll()
+  const movie_name = await Filmes.findByPk()
+  res.render('programacao.ejs', { sessions })
 }
 
+
 const createScreenings = async (req, res) => {
-  const { horario, lugares_disponiveis, id_movie } = req.body
+  const { hora, lugares_disponiveis, id_movie, dia } = req.body
 
   try {
     const movieExists = await Filmes.findByPk(id_movie)
-    res.render('cadastroSessoes', { movieExists })
+
 
     if (!movieExists) {
       return res.status(404).json({ error: 'Filme não encontrado' })
     }
+    //criando sessão
 
-    const screening = await Screenings.create({ horario, lugares_disponiveis, id_movie })
+    const screening = await Screenings.create({ dia, lugares_disponiveis, hora, id_movie })
+
     res.status(201).json({ message: "Sessão criada com sucesso", screening })
   }
 
@@ -109,4 +114,4 @@ const createScreenings = async (req, res) => {
 
 }
 
-module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, renderScreenings, createScreenings }
+module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, createScreenings, renderScreenings }

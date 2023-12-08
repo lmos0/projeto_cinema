@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, renderScreenings, createScreenings } = require('../controller/funcionariosController')
+const Screenings = require('../database/models/sessoesModel')
 const { funcionarioLoginPage } = require('../routes/renderRoutes')
 
 
@@ -30,9 +31,14 @@ router.get('/movies', getMovies)
 
 router.post('/deletemovie', deleteMovie)
 
-router.get('/createsession', renderScreenings)
+router.get('/sessoes', (req, res) => {
+    res.render('cadastroSessoes.ejs')
+})
 
-router.post('/createsession', createScreenings)
+router.post('/sessoes', createScreenings)
+
+router.get('/programacao', renderScreenings)
+
 
 
 

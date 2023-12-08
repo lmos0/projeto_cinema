@@ -20,7 +20,7 @@ const Lugares = require('./database/models/lugaresModel')
 const Sessoes = require('./database/models/sessoesModel')
 const Funcionarios = require('./database/models/funcionariosModel')
 
-database.sync()
+// database.sync({ force: true })
 
 const PORT = 3000
 const path = require('path')
@@ -48,7 +48,4 @@ app.listen(PORT, () => {
 
 
 
-// rota de login do usuário
-// app.get('/login', (req,res) => {
-//     res.sendFile(path.resolve(__dirname, 'pages/login.html'))
-// })
+
