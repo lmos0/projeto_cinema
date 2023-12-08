@@ -20,7 +20,7 @@ const Lugares = require('./database/models/lugaresModel')
 const Sessoes = require('./database/models/sessoesModel')
 const Funcionarios = require('./database/models/funcionariosModel')
 
-// database.sync({ force: true })
+//database.sync({ force: true })
 
 const PORT = 3000
 const path = require('path')

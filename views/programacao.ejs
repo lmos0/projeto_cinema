@@ -148,6 +148,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Título</th>
                         <th>Dia</th>
                         <th>Lugares Disponíveis</th>
                         <th>Hora</th>
@@ -159,6 +160,13 @@
                         <tr>
                             <td>
                                 <%= session.id_session %>
+                            </td>
+                            <td>
+                                <% if (session.Filmes) { %>
+                                    <%= session.Filmes.titulo %>
+                                        <% } else { %>
+                                            Movie Not Found
+                                            <% } %>
                             </td>
                             <td>
                                 <%= session.dia.toISOString().split('T')[0] %>

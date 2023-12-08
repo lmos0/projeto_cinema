@@ -21,6 +21,10 @@ const Screenings = database.define('Sessões', {
     hora: {
         type: DataTypes.TIME,
         allowNull: false
+    },
+    id_movie: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 })
 

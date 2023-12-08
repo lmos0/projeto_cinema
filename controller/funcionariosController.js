@@ -82,8 +82,10 @@ const LoginScreen = async (req, res) => {
 
 
 const renderScreenings = async (req, res) => {
-  const sessions = await Screenings.findAll()
-  const movie_name = await Filmes.findByPk()
+  const sessions = await Screenings.findAll({
+    include: Filmes
+  })
+
   res.render('programacao.ejs', { sessions })
 }
 
