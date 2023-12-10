@@ -1,5 +1,6 @@
 const Funcionarios = require('../database/models/funcionariosModel')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const Filmes = require('../database/models/filmesModel');
 const Screenings = require('../database/models/sessoesModel');
@@ -61,10 +62,18 @@ const renderAdminLogin = (req, res) => {
 }
 
 const registerAdmins = async (req, res) => {
-  const { user, password } = req.body //controller
+  const { user, password, confirmPassword } = req.body //controller
   try {
-    await Funcionarios.create({ user, password })
-    console.log(user, password)
+
+    if (password !== confirmPassword) {
+      res.send('Senhas não conferem')
+      return
+    }
+
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+    await Funcionarios.create({ user, password: hashedPassword })
+    console.log(user, hashedPassword, 'Usuário criado com sucesso')
     res.redirect('/')
   }
   catch (error) {
@@ -72,6 +81,43 @@ const registerAdmins = async (req, res) => {
     res.redirect('/')
   }
 
+}
+
+const authAdmin = async (req, res) => {
+  try {
+    const { user, password } = req.body
+
+    const userFound = await Funcionarios.findOne({
+      where: {
+        user: user
+      }
+    })
+
+    if (!userFound) {
+      return res.status(401).redirect('/login')
+    }
+
+    const passwordMatch = await bcrypt.compare(password, userFound.password)
+
+    if (!passwordMatch) {
+      return res.status(401).redirect('/login')
+    }
+
+    const accessToken = jwt.sign({ username: userFound.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+    const refreshToken = jwt.sign({ userId: userFound.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
+
+    res.cookie('token', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, path: '/' })
+    res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 15 * 60 * 1000, path: '/' })
+    console.log(accessToken)
+    res.redirect('/') //definir rota
+
+
+
+  }
+  catch (error) {
+    console.error('Falha ao logar', error)
+    res.status(500).render('erro.ejs')
+  }
 }
 
 const LoginScreen = async (req, res) => {
@@ -82,11 +128,17 @@ const LoginScreen = async (req, res) => {
 
 
 const renderScreenings = async (req, res) => {
-  const sessions = await Screenings.findAll({
-    include: Filmes
-  })
+  try {
+    const sessions = await Screenings.findAll({
+      include: Filmes,
+    })
 
-  res.render('programacao.ejs', { sessions })
+    res.render('programacao.ejs', { sessions })
+  }
+  catch (error) {
+    console.error('Erro ao buscar os dados.', error)
+    res.status(500).send('Internal Server Error')
+  }
 }
 
 
@@ -116,4 +168,4 @@ const createScreenings = async (req, res) => {
 
 }
 
-module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, createScreenings, renderScreenings }
+module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, createScreenings, renderScreenings, authAdmin }

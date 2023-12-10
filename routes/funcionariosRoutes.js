@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, renderScreenings, createScreenings } = require('../controller/funcionariosController')
+const { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, renderScreenings, createScreenings, authAdmin } = require('../controller/funcionariosController')
 const Screenings = require('../database/models/sessoesModel')
+const verifyToken = require('../middleware/auth')
 const { funcionarioLoginPage } = require('../routes/renderRoutes')
 
 
@@ -39,6 +40,9 @@ router.post('/sessoes', createScreenings)
 
 router.get('/programacao', renderScreenings)
 
+router.get('/panel', verifyToken, (req, res) => {
+    res.send('logado no Painel de Administração')
+})
 
 
 
