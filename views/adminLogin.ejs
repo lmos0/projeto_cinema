@@ -136,15 +136,15 @@
 
   <main id="main">
     <br>
-    <form class="container">
+    <form class="container" action="/admin" method="post">
       <h3 class="text-center"> Administrador <i class="bi bi-person-workspace"></i> </h3>
       <div class="mb-5">
         <label for="exampleInputEmail1" class="text-center">Usuário</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="user">
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="text-center">Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password">
       </div>
       <div class="text-center">
         <button type="submit" class="" id="botao_logar">Logar</button>

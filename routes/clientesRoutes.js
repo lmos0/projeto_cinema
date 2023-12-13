@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { registerCostumer, authCostumer } = require('../controller/clientesController')
+const { registerCostumer, authCostumer, renderEmCartaz, buyTicket } = require('../controller/clientesController')
 const verifyToken = require('../middleware/auth')
 
 
@@ -26,8 +26,14 @@ router.get('/', (req, res) => {
 router.post('/login', authCostumer, verifyToken)
 
 
+
 router.get('/session', verifyToken, (req, res) => {
     res.render('sessionUser.ejs', { username: req.user })
 })
+
+router.get('/emcartaz', renderEmCartaz)
+
+router.post('/emcartaz', buyTicket)
+
 
 module.exports = router

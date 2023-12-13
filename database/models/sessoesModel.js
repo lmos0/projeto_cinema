@@ -28,7 +28,14 @@ const Screenings = database.define('Sessões', {
     }
 })
 
-Screenings.belongsTo(Filmes, { foreignKey: 'id_movie' })
+Screenings.belongsTo(Filmes, {
+    foreignKey: 'id_movie',
+    targetKey: 'id_movie',
+    include: {
+        model: Filmes,
+        attributes: ['is3d']
+    }
+})
 Filmes.hasMany(Screenings)
 Screenings.hasOne(Lugares)
 

@@ -2,8 +2,8 @@ const Funcionarios = require('../database/models/funcionariosModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const Filmes = require('../database/models/filmesModel');
-const Screenings = require('../database/models/sessoesModel');
+const Filmes = require('../database/models/filmesModel')
+const Screenings = require('../database/models/sessoesModel')
 
 const postMovie = async (req, res) => {
   const { titulo, genero, censura, duracao, is3d } = req.body;
@@ -74,7 +74,7 @@ const registerAdmins = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
     await Funcionarios.create({ user, password: hashedPassword })
     console.log(user, hashedPassword, 'Usuário criado com sucesso')
-    res.redirect('/')
+    res.redirect('/admin/addmovie')
   }
   catch (error) {
     console.log('Erro na criação', error)
@@ -94,13 +94,13 @@ const authAdmin = async (req, res) => {
     })
 
     if (!userFound) {
-      return res.status(401).redirect('/login')
+      return res.status(401).redirect('/admin')
     }
 
     const passwordMatch = await bcrypt.compare(password, userFound.password)
 
     if (!passwordMatch) {
-      return res.status(401).redirect('/login')
+      return res.status(401).redirect('/admin')
     }
 
     const accessToken = jwt.sign({ username: userFound.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
@@ -109,7 +109,7 @@ const authAdmin = async (req, res) => {
     res.cookie('token', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, path: '/' })
     res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 15 * 60 * 1000, path: '/' })
     console.log(accessToken)
-    res.redirect('/') //definir rota
+    res.redirect('/admin/movies') //definir rota
 
 
 
@@ -130,8 +130,14 @@ const LoginScreen = async (req, res) => {
 const renderScreenings = async (req, res) => {
   try {
     const sessions = await Screenings.findAll({
-      include: Filmes,
+      include: {
+        model: Filmes,
+        required: false,
+        attributes: ['titulo']
+      }
     })
+
+    console.log(sessions)
 
     res.render('programacao.ejs', { sessions })
   }
@@ -156,7 +162,7 @@ const createScreenings = async (req, res) => {
 
     const screening = await Screenings.create({ dia, lugares_disponiveis, hora, id_movie })
 
-    res.status(201).json({ message: "Sessão criada com sucesso", screening })
+    res.status(201).redirect('/admin/programacao')
   }
 
   catch (error) {
@@ -168,4 +174,27 @@ const createScreenings = async (req, res) => {
 
 }
 
-module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, createScreenings, renderScreenings, authAdmin }
+const deleteScreening = async (req, res) => {
+  const { id_session } = req.body
+  try {
+    const deleteRows = await Screenings.destroy({
+      where: {
+        id_session: id_session
+      },
+    });
+
+    if (deleteRows > 0) {
+      console.log(`A sessão foi deletada com sucesso`)
+      res.redirect('/admin/programacao')
+    } else {
+      console.log('Sessão não encontrada')
+      res.redirect('/admin/programacao')
+    }
+  } catch (error) {
+    console.error('Erro ao deletar a sessão:', error)
+    res.redirect('/admin/programacao')
+  }
+}
+
+
+module.exports = { postMovie, registerAdmins, getMovies, renderAdminLogin, deleteMovie, createScreenings, renderScreenings, authAdmin, deleteScreening }

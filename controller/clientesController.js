@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt')
 const dotenv = require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
+const Screenings = require('../database/models/sessoesModel')
+const Filmes = require('../database/models/filmesModel')
+
 const registerCostumer = async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -62,4 +65,56 @@ const authCostumer = async (req, res) => {
     }
 }
 
-module.exports = { registerCostumer, authCostumer }
+
+
+const renderEmCartaz = async (req, res) => {
+    try {
+        const sessions = await Screenings.findAll({
+            include: {
+                model: Filmes,
+                required: false,
+                attributes: ['titulo']
+            }
+        })
+
+        console.log(sessions)
+
+        res.render('emCartaz.ejs', { sessions })
+    }
+    catch (error) {
+        console.error('Erro ao buscar os dados.', error)
+        res.status(500).send('Internal Server Error')
+    }
+}
+
+const buyTicket = async (req, res) => {
+    try {
+        const { sessionId } = req.body;
+
+
+        const screening = await Screenings.findByPk(sessionId)
+
+        if (!screening) {
+            return res.status(404).json({ error: 'Screening not found' });
+        }
+
+
+        if (screening.lugares_disponiveis > 0) {
+
+            screening.lugares_disponiveis -= 1
+            await screening.save();
+
+
+            return res.json({ success: true })
+        } else {
+            return res.status(400).json({ error: 'No available seats' });
+        }
+    } catch (error) {
+        console.error('Error buying ticket:', error);
+        res.status(500).json({ error: 'Internal Server Error' })
+
+    }
+}
+
+
+module.exports = { registerCostumer, authCostumer, renderEmCartaz, buyTicket }
