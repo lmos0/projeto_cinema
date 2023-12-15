@@ -95,7 +95,7 @@ const buyTicket = async (req, res) => {
         const screening = await Screenings.findByPk(sessionId)
 
         if (!screening) {
-            return res.status(404).json({ error: 'Screening not found' });
+            return res.status(404).json({ error: 'Sessão não encontrada' });
         }
 
 
@@ -107,10 +107,10 @@ const buyTicket = async (req, res) => {
 
             return res.json({ success: true })
         } else {
-            return res.status(400).json({ error: 'No available seats' });
+            return res.status(400).json({ error: 'Não há lugares dispon[iveis ' });
         }
     } catch (error) {
-        console.error('Error buying ticket:', error);
+        console.error('Erro ao comprar o Ingresso:', error);
         res.status(500).json({ error: 'Internal Server Error' })
 
     }

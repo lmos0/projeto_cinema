@@ -1,12 +1,12 @@
-const {Sequelize} = require('sequelize')
-const sequelize = new Sequelize( {dialect: 'sqlite', storage:'./cinema.sqlite'})
+const { Sequelize } = require('sequelize')
+const sequelize = new Sequelize({ dialect: 'sqlite', storage: './cinema.sqlite' })
 
 sequelize.sync()
   .then(() => {
-    console.log('Database is synchronized with the model.')
+    console.log('Database sincronizado com os models')
   })
   .catch((error) => {
-    console.error('An error occurred while synchronizing the database:', error);
+    console.error('Ocorreu um erro', error)
   })
 
 module.exports = sequelize

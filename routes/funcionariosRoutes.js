@@ -26,7 +26,7 @@ router.get('/addmovie', (req, res) => {
     res.render('cadastroFilmes.ejs')
 })
 
-router.post('/addmovie', postMovie);
+router.post('/addmovie', postMovie)
 
 // buscar filmes no bd
 
